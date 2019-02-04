@@ -1,0 +1,9 @@
+from tensorflow.python import keras 
+input1, input2 = keras.layers.Input((28 * 28,)), keras.layers.Input((28 * 28,))
+emb1 = keras.layers.Dense(units=1000, activation="relu")
+emb2 = keras.layers.Dense(units=100, activation="sigmoid")
+output1, output2 = emb2(emb1(input1)), emb2(emb1(input1))
+output = keras.layers.Dense(units=1, activation="sigmoid")(keras.layers.Concatenate(axis=1)([output1, output2]))
+model = keras.Model(inputs=[input1, input2], outputs=[output])
+model.compile(optimizer=keras.optimizers.RMSprop(), loss=keras.losses.binary_crossentropy)
+
